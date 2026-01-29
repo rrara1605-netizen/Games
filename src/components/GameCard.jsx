@@ -11,7 +11,7 @@ const GameCard = ({ game }) => { // Destructure game prop
       to={`/games/${game.id}`} // Link to game details page
       className="group card bg-white/5 hover:bg-white/10 rounded-xl overflow-hidden shadow-lg transition"
     >
-      <figure className="h-44 overflow-hidden"> // Image container
+      <figure className="h-44 overflow-hidden"> 
         <img
           src={game.thumbnail} // Game thumbnail
           alt={game.title}     // Alt text for accessibility
@@ -22,30 +22,30 @@ const GameCard = ({ game }) => { // Destructure game prop
       <div className="p-4 space-y-2">
         <div className="flex justify-between items-start">
           <h3 className="font-semibold text-lg line-clamp-1">
-            {game.title}      // Game title
+            {game.title}      
           </h3>
 
           <button
           onClick={(e) => {
-            e.preventDefault(); // Prevent navigation on button click
-            favorite ? removeFavorite(game.id) : addFavorite(game); }} // Toggle favorite status
+            e.preventDefault(); 
+            favorite ? removeFavorite(game.id) : addFavorite(game); }} 
             className="text-xl"
             title="Favorite">
-              {favorite ? ( // Filled heart if favorite 
+              {favorite ? ( 
                 <FaHeart className="text-pink-500 transition scale-110" /> ) : (
                 <FaRegHeart className="text-white/50 hover:text-pink-400 transition" />
              )}
           </button>
         </div>
 
-        <p className="text-sm text-gray-400">{game.genre}</p> // Game genre
+        <p className="text-sm text-gray-400">{game.genre}</p> 
         <p className="text-xs text-gray-500 line-clamp-2">
-          {game.short_description} // Short description
+          {game.short_description} 
         </p>
 
         <div className="flex justify-between items-center pt-2">
           <span className="badge badge-outline text-xs">
-            {game.platform} // Game platform
+            {game.platform} 
           </span>
           <span className="text-xs text-primary">View Details →</span>
         </div>

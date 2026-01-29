@@ -9,8 +9,6 @@ function Games() {
   const [search, setSearch] = useState("");
   const [genre, setGenre] = useState("all");
 
-  const [searchHistory, setSearchHistory] = useState([]);
-
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const gamesPerPage = 12; // Number of games per page
@@ -19,20 +17,6 @@ function Games() {
   useEffect(() => {
     setCurrentPage(1);
   }, [search, genre]);
-
-  // Load history saat pertama render
-useEffect(() => {
-  const saved = JSON.parse(localStorage.getItem("searchHistory"));
-  if (saved) setSearchHistory(saved);
-}, []);
-
-// Simpan history setiap berubah
-useEffect(() => {
-  localStorage.setItem(
-    "searchHistory",
-    JSON.stringify(searchHistory)
-  );
-}, [searchHistory]);
 
   // Filter games berdasarkan search + genre
   const filteredGames = state.games.filter((game) => {
@@ -113,18 +97,6 @@ useEffect(() => {
                   d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z"
                 />
               </svg>
-              <input
-                type="text"
-                placeholder="Search games by title or genre..."
-                className="input input-bordered w-full pl-12 h-14 bg-black/40 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleSearch(search);
-                  }
-                }}
-              />
 
               <input
                 type="text"
@@ -134,21 +106,6 @@ useEffect(() => {
                 onChange={(e) => setSearch(e.target.value)} // Update search state
               />
             </div>
-
-            {/* Search History */}
-              {searchHistory.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {searchHistory.map((item, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleSearch(item)}
-                      className="px-3 py-1 text-sm rounded-full bg-white/10 hover:bg-white/20 transition"
-                    >
-                      🔍 {item}
-                    </button>
-                  ))}
-                </div>
-              )}
 
             {/* Filter Genre */}
             <select

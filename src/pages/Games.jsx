@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
-import { useGameContext } from "../context/GameContext";
-import GameCard from "../components/GameCard";
+import { useGameContext } from "../context/GameContext"; // Import context
+import GameCard from "../components/GameCard"; // Import GameCard component
 
 function Games() {
-  const { state } = useGameContext();
+  const { state } = useGameContext(); // Access global state from context
 
+  // Search and Filter state
   const [search, setSearch] = useState("");
   const [genre, setGenre] = useState("all");
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const gamesPerPage = 12;
+  const gamesPerPage = 12; // Number of games per page
 
-  // Reset page saat search / genre berubah
+  // Reset to page 1 on search or genre change
   useEffect(() => {
     setCurrentPage(1);
   }, [search, genre]);
@@ -20,26 +21,27 @@ function Games() {
   // Filter games berdasarkan search + genre
   const filteredGames = state.games.filter((game) => {
     const keyword = search.toLowerCase();
-
+    // Check if game matches search keyword
     const matchSearch =
       game.title.toLowerCase().includes(keyword) ||
-      game.genre.toLowerCase().includes(keyword);
+      game.genre.toLowerCase().includes(keyword); // Search in title and genre
 
+    // Check if game matches selected genre
     const matchGenre =
       genre === "all" || game.genre.toLowerCase() === genre;
-
-    return matchSearch && matchGenre;
+    
+    return matchSearch && matchGenre; // Return true if both match
   });
 
   // Pagination logic
   const indexOfLastGame = currentPage * gamesPerPage;
   const indexOfFirstGame = indexOfLastGame - gamesPerPage;
-
+  // Get current page games
   const currentGames = filteredGames.slice(
     indexOfFirstGame,
     indexOfLastGame
   );
-
+  // Calculate total pages 
   const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
 
   // Loading state
@@ -101,14 +103,14 @@ function Games() {
                 placeholder="Search games by title or genre..."
                 className="input input-bordered w-full pl-12 h-14 bg-black/40 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearch(e.target.value)} // Update search state
               />
             </div>
 
             {/* Filter Genre */}
             <select
               value={genre}
-              onChange={(e) => setGenre(e.target.value)}
+              onChange={(e) => setGenre(e.target.value)} // Update genre state
               className="select select-bordered h-14 bg-black/40 text-white w-full md:w-56"
             >
               <option value="all">All Genres</option>
@@ -133,8 +135,8 @@ function Games() {
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {currentGames.map((game) => (
-                <GameCard key={game.id} game={game} />
+              {currentGames.map((game) => ( // Render current page games
+                <GameCard key={game.id} game={game} /> // GameCard component
               ))}
             </div>
 
@@ -145,8 +147,8 @@ function Games() {
               {/* Prev */}
               <button
                 className="join-item btn"
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage(p => p - 1)}
+                disabled={currentPage === 1} // Disable if on first page
+                onClick={() => setCurrentPage(p => p - 1)} // Go to previous page
                 > «
               </button>
              {/* Info Page */}

@@ -1,24 +1,27 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useGameContext } from "../context/GameContext";
+import { useEffect, useState } from "react"; 
+import { useParams, useNavigate } from "react-router-dom"; // Import routing hooks
+import { useGameContext } from "../context/GameContext"; // Import context
 
+// Game detail page component
 function GamesDetail() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const { addFavorite, removeFavorite, isFavorite } = useGameContext();
-
+  const { id } = useParams(); // Get game ID from URL params
+  const navigate = useNavigate(); // Navigation hook
+  const { addFavorite, removeFavorite, isFavorite } = useGameContext(); // Access context functions
+  
+  // Local state for game data and loading status
   const [game, setGame] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Fetch game details on component mount
   useEffect(() => {
     const fetchGame = async () => {
       try {
-        const response = await fetch(`/api/game?id=${id}`);
-        const data = await response.json();
+        const response = await fetch(`/api/game?id=${id}`); // Fetch game by ID
+        const data = await response.json(); 
         setGame(data);
-      } catch (error) {
+      } catch (error) { // Handle fetch error
         console.error(error);
-      } finally {
+      } finally { // Always set loading to false after fetch attempt
         setLoading(false);
       }
     };
@@ -50,7 +53,7 @@ function GamesDetail() {
     );
   }
 
-  const favorite = isFavorite(game.id);
+  const favorite = isFavorite(game.id); // check if games is favorite
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-black text-white pt-24 px-4">
@@ -95,12 +98,12 @@ function GamesDetail() {
 
             <div className="flex gap-4 pt-4">
               <button
-                onClick={() => window.open(game.game_url, "_blank")}
+                onClick={() => window.open(game.game_url, "_blank")} // Open game URL in new tab
                 className="btn btn-primary flex-1"
               >
                 🎮 Play Game
               </button>
-
+               
               <button
                 onClick={() =>
                   favorite

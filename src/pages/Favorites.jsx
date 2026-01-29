@@ -1,18 +1,20 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGameContext } from '../context/GameContext';
-import GameCard from '../components/GameCard';
+import { useGameContext } from '../context/GameContext'; // Import context
+import GameCard from '../components/GameCard'; // Import GameCard component
 
+// Favorites page component
 function Favorites() {
-  const { state, removeFavorite } = useGameContext();
-  const navigate = useNavigate();
+  const { state, removeFavorite } = useGameContext(); // Access context
+  const navigate = useNavigate(); // Navigation hook
 
+  // Handle Clear All favorites
   const handleClearAll = () => {
     state.favorites.forEach(game => {
       removeFavorite(game.id);
     });
   };
-
+  // If no favorites, show message
   if (state.favorites.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white py-8">
@@ -45,7 +47,7 @@ function Favorites() {
               You haven't added any games to your favorites. Explore our collection and add your favorite games!
             </p>
             <button
-              onClick={() => navigate('/games')}
+              onClick={() => navigate('/games')} // Navigate to games page
               className="btn btn-primary btn-lg"
             >
               Explore Games
@@ -83,8 +85,9 @@ function Favorites() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          // Render favorite games
           {state.favorites.map((game) => (
-            <GameCard key={game.id} game={game} />
+            <GameCard key={game.id} game={game} /> // GameCard component
           ))}
         </div>
       </div>
